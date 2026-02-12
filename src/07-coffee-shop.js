@@ -31,5 +31,79 @@
  * @returns {number} Total price or -1 for invalid input
  */
 export function calculateCoffeePrice(size, type, extras = {}) {
-  // Your code here
+    if (!checkSize(size) || !checkType(type)) {
+      return -1;
+    }
+
+    let cost = 0;
+    cost += getBasePrice(size);
+    cost += getCoffeeAddon(type);
+    cost += getExtrasCost(extras.whippedCream, extras.extraShot);
+
+    return Math.round(cost * 100) / 100;
+}
+
+function checkSize (size){
+  return size === "small" ||size == "medium" || size == "large";
+}
+
+function checkType (type) {
+  return type === "regular" || type === "latte" || type === "cappuccino" || type === "mocha"
+}
+
+function getBasePrice(size) {
+  let price = 0;
+
+  switch (size) {
+    case "small":
+      price = 3.00;
+      break;
+    case "medium":
+      price = 4.00;
+      break;
+    case "large":
+      price = 5.00;
+      break;
+    default:
+      price = 0;
+  }
+
+  return price;
+}
+
+function getCoffeeAddon(type) {
+  let addon = 0;
+
+  switch (type) {
+    case "regular":
+      addon = 0.00;
+      break;
+    case "latte":
+      addon = 1.00;
+      break;
+    case "cappuccino":
+      addon = 1.50;
+      break;
+    case "mocha":
+      addon = 2.00;
+      break;
+    default:
+      addon = 0;
+  }
+
+  return addon;
+}
+
+function getExtrasCost(whippedCream, extraShot) {
+  let cost = 0;
+
+  if (whippedCream === true) {
+    cost += 0.50;
+  }
+
+  if (extraShot === true) {
+    cost += 0.75;
+  }
+
+  return cost;
 }
